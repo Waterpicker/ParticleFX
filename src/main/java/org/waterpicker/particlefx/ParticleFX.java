@@ -17,7 +17,7 @@ import org.spongepowered.api.text.format.TextStyles;
         name = "ParticleFX",
         description = "Particle Library for the Sponge Platform",
         authors = {"Waterpicker"},
-        version = "0.0.1"
+        version = "0.1.0"
 )
 
 public class ParticleFX {

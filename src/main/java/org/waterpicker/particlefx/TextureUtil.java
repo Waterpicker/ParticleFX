@@ -27,7 +27,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class TextureUtil {
-    public static Multimap<ParticleEffect, Vector3d> convert(BufferedImage image, float ratio) {
+    public static Multimap<ParticleEffect, Vector3d> convert(BufferedImage image, double ratio) {
         ParticleEffect.Builder effect = ParticleEffect.builder().type(ParticleTypes.REDSTONE_DUST).velocity(Vector3d.ZERO);
 
         Multimap<Color, Vector3d> temp = ArrayListMultimap.create();
