@@ -4,6 +4,7 @@ import com.flowpowered.math.matrix.Matrix4d;
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import org.spongepowered.api.effect.Viewer;
 import org.spongepowered.api.effect.particle.ParticleEffect;
@@ -12,10 +13,12 @@ import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.util.Color;
 
 import java.util.List;
-public class ParticleComponent {
-    private List<Multimap<ParticleEffect, Vector3d>> stages;
+import java.util.Map;
 
-    protected ParticleComponent(List<Multimap<ParticleEffect, Vector3d>> stages) {
+public class ParticleComponent {
+    private Map<Integer,Multimap<ParticleEffect, Vector3d>> stages;
+
+    protected ParticleComponent(Map<Integer, Multimap<ParticleEffect, Vector3d>> stages) {
         this.stages = stages;
     }
 
@@ -24,7 +27,12 @@ public class ParticleComponent {
     }
 
     public void render(Viewer viewer, int stage, ParticleEffect effect, Matrix4d... matrices) {
-        ComponentUtil.render(viewer, effect, stages.get(stage).values(), matrices);
+        if(effect != null) {
+            ComponentUtil.render(viewer, effect, stages.get(stage).values(), matrices);
+        } else {
+            render(viewer, 0, matrices);
+        }
+
     }
 
     public void render(Viewer viewer, int stage, Matrix4d... matrices) {
@@ -32,7 +40,11 @@ public class ParticleComponent {
     }
 
     public void render(Viewer viewer, ParticleEffect effect, Matrix4d... matrices) {
-        render(viewer, 0, effect, matrices);
+        if(effect != null) {
+            render(viewer, 0, effect, matrices);
+        } else {
+            render(viewer, matrices);
+        }
     }
 
     public void render(Viewer viewer, Matrix4d... matrices) {
@@ -46,14 +58,14 @@ public class ParticleComponent {
     public static class Builder {
         private static ParticleEffect DEFAULT = ParticleEffect.builder().type(ParticleTypes.REDSTONE_DUST).option(ParticleOptions.COLOR, Color.WHITE).build();
 
-        private List<Multimap<ParticleEffect, Vector3d>> stages = Lists.newArrayList(ArrayListMultimap.create());
+        private Map<Integer, Multimap<ParticleEffect, Vector3d>> stages = Maps.newHashMap();
 
         public Builder stage(int stage, Multimap<ParticleEffect, Vector3d> contents) {
-            stages.set(stage, contents);
+            stages.put(stage, contents);
             return this;
         }
 
-        public Builder stages(List<Multimap<ParticleEffect, Vector3d>> stages) {
+        public Builder stages(Map<Integer,Multimap<ParticleEffect, Vector3d>> stages) {
             this.stages = stages;
             return this;
         }
@@ -62,7 +74,7 @@ public class ParticleComponent {
             Multimap<ParticleEffect, Vector3d> map = ArrayListMultimap.create();
             map.putAll(DEFAULT, list);
 
-            this.stages.set(stage, map);
+            this.stages.put(stage, map);
             return this;
         }
 

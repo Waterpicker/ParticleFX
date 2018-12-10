@@ -16,12 +16,6 @@ public class ParametricEquationComponent {
         private Function<Double, Vector3d> function = value -> Vector3d.ZERO;
         private double interval = 1;
         private double increment = 1;
-        private String name = "";
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
 
         public Builder function(Function<Double, Vector3d> funciton) {
             this.function = funciton;
@@ -46,7 +40,7 @@ public class ParametricEquationComponent {
                 if(!data.contains(current)) data.add(current);
             }
 
-            return ParticleComponent.builder().name(name).stage(0, data).build();
+            return ParticleComponent.builder().stage(0, data).build();
         }
     }
 }

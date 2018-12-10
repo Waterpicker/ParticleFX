@@ -11,12 +11,6 @@ public class CircleComponent {
     public static class Builder {
         public double radius = 1;
         public double increment = 8;
-        private String name = "";
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
 
         public Builder radius(double radius) {
             this.radius = radius;
@@ -29,7 +23,7 @@ public class CircleComponent {
         }
 
         public ParticleComponent build() {
-            return ParametricEquationComponent.builder().name(name).interval(1).increment(increment).function((angle) -> new Vector3d(radius * TrigMath.cos(TrigMath.TWO_PI * angle), 0, radius * TrigMath.sin(TrigMath.TWO_PI * angle))).build();
+            return ParametricEquationComponent.builder().interval(1).increment(increment).function((angle) -> new Vector3d(radius * TrigMath.cos(TrigMath.TWO_PI * angle), 0, radius * TrigMath.sin(TrigMath.TWO_PI * angle))).build();
         }
     }
 }

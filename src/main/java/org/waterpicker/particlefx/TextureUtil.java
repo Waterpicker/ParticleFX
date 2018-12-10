@@ -27,16 +27,16 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class TextureUtil {
-    public static Multimap<ParticleEffect, Vector3d> convert(BufferedImage image, double ratio) {
+    public static Multimap<ParticleEffect, Vector3d> convert(BufferedImage image, Anchor anchor, double ratio) {
         ParticleEffect.Builder effect = ParticleEffect.builder().type(ParticleTypes.REDSTONE_DUST).velocity(Vector3d.ZERO);
 
         Multimap<Color, Vector3d> temp = ArrayListMultimap.create();
 
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
-                Optional<Color> color = getColor(image.getRGB(x,y));
+                Optional<Color> color = getColor(image.getRGB(image.getWidth()-1-x , image.getHeight()-1-y));
                 if(color.isPresent()) {
-                    temp.put(color.get(), new Vector3d((image.getWidth()-1)-x, (image.getHeight()-1)-y, 0).mul(ratio));
+                    temp.put(color.get(), anchor.translate(new Vector3d(x, y, 0), image.getWidth()-1, image.getHeight()-1).mul(ratio));
                 }
             }
         }
