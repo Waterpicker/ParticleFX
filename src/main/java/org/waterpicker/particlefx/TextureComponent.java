@@ -89,6 +89,10 @@ public class TextureComponent extends ParticleComponent {
     }
 
     public static class PNG {
+        public static Builder builder() {
+            return new Builder();
+        }
+
         public static class Builder {
             private Path path = Paths.get("");
             private double ratio = 0.125f;
