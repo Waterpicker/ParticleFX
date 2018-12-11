@@ -114,7 +114,7 @@ public class TextureComponent extends ParticleComponent {
             }
 
             public TextureComponent build() {
-                TextureComponent.Builder component = TextureComponent.builder();
+                TextureComponent.Builder component = TextureComponent.builder().anchor(anchor);
                 TextureUtil.image.apply(path).ifPresent(image -> component.image(0, image));
                 component.ratio(ratio);
 
